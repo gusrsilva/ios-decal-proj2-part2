@@ -34,6 +34,26 @@ class CurrentUser {
     func getReadPostIDs(completion: @escaping ([String]) -> Void) {
         var postArray: [String] = []
         // TODO
+        dbRef.child(firUsersNode).child(id!).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+        if(snapshot.exists()) {
+            print("Snapshot for id \(self.id!) exists!")
+            let values = snapshot.value as? [String: AnyObject]
+            for (key, _) in values! {
+                postArray.append(key)
+            }
+            completion(postArray)
+        }
+        else {
+            print("Snapshot for id \(self.id!) DOES NOT EXIST!")
+            completion([])
+        }
+        
+
+        }) { (error) in
+            print(error.localizedDescription)
+            completion([])
+        }
     }
     
     /*
@@ -45,6 +65,8 @@ class CurrentUser {
     */
     func addNewReadPost(postID: String) {
         // TODO
+        readPostIDs?.append(postID)
+        dbRef.child(firUsersNode).child(id).child(firReadPostsNode).childByAutoId().setValue(postID)
     }
     
 }
