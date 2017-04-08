@@ -123,6 +123,12 @@ class PostsTableViewController: UIViewController, UITableViewDelegate, UITableVi
                     self.navigationController?.navigationBar.isHidden = true
                     self.tabBarController?.tabBar.isHidden = true
                 }
+                else {
+                    MBProgressHUD.hide(for: self.view, animated: true)
+                    let alert = UIAlertController(title: "Oops!", message: "Sorry this post has invalid image data", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             })
         }
     
